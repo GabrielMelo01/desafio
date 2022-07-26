@@ -14,13 +14,10 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PessoaOutput implements Serializable {
+
     private Integer id;
-    @NotBlank(message = "Cpf obrigatorio!")
     private String cpf;
-    @NotBlank(message = "Nome obrigatorio!")
     private String nome;
-    @Email
-    @NotBlank(message = "Email obrigatorio!")
     private String email;
     private String senha;
 

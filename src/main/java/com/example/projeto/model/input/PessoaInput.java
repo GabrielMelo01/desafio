@@ -3,6 +3,7 @@ package com.example.projeto.model.input;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -13,6 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class PessoaInput implements Serializable {
     private Integer id;
+    @CPF
     @NotBlank(message = "Cpf obrigatorio!")
     private String cpf;
     @NotBlank(message = "Nome obrigatorio!")
