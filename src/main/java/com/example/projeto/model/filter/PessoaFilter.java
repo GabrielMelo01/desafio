@@ -1,4 +1,4 @@
-package com.example.projeto.model;
+package com.example.projeto.model.filter;
 
 import com.example.projeto.core.searchSpec.GenericSpesification;
 import com.example.projeto.core.searchSpec.SearchCriteria;

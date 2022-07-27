@@ -1,8 +1,9 @@
 package com.example.projeto.model.Service;
 
 import java.util.List;
+import java.util.Optional;
 
-import com.example.projeto.model.PessoaFilter;
+import com.example.projeto.model.filter.PessoaFilter;
 import com.example.projeto.model.Service.exceptions.ObjectNotFoundExeption;
 import com.example.projeto.model.input.PessoaInput;
 import com.example.projeto.model.output.PessoaOutput;
@@ -10,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.projeto.model.Repository.PessoaRepository;
@@ -35,8 +37,22 @@ public class PessoaService {
         return pessoa;
     }
 
+    public Optional<Pessoa> findById(Integer id) {
+        Optional<Pessoa> pessoa = pessoaRepository.findById(id);
+        if(pessoa == null) {
+            throw new ObjectNotFoundExeption("Requisição não encontrada.");
+        }
+        return pessoa;
+    }
+
     public Pessoa post(PessoaInput pessoaInput ) {
+
         Pessoa pessoaTosave = modelMapper.map(pessoaInput,Pessoa.class);
+
+        BCryptPasswordEncoder criptografar = new BCryptPasswordEncoder();
+        String senhaCriptografada = criptografar.encode(pessoaTosave.getSenha());
+        pessoaTosave.setSenha(senhaCriptografada);
+
         return pessoaRepository.save(pessoaTosave);
     }
 

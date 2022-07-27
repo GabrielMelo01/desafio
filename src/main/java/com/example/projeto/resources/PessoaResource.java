@@ -1,6 +1,6 @@
 package com.example.projeto.resources;
 
-import com.example.projeto.model.PessoaFilter;
+import com.example.projeto.model.filter.PessoaFilter;
 import com.example.projeto.model.input.PessoaInput;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -11,11 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.projeto.model.Service.PessoaService;
-import com.example.projeto.model.entity.Pessoa;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
@@ -23,7 +22,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(value = "/pessoas")
 @Api(value = "API pessoas")
-public class PessoaResource {
+public class PessoaResource  extends WebSecurityConfigurerAdapter {
     
     @Autowired private PessoaService service;
 
@@ -42,6 +41,11 @@ public class PessoaResource {
     public ResponseEntity<?> findAll(@PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 10)
                                          @ApiIgnore Pageable pageable, PessoaFilter filter){
         return ResponseEntity.ok(service.findAll(pageable, filter));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable Integer id){
+        return ResponseEntity.ok(service.findById(id));
     }
 
     @ApiOperation(value = "salva uma nova pessoa")
