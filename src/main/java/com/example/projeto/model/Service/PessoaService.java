@@ -1,10 +1,9 @@
 package com.example.projeto.model.Service;
 
-import java.util.List;
-import java.util.Optional;
-
-import com.example.projeto.model.filter.PessoaFilter;
+import com.example.projeto.model.Repository.PessoaRepository;
 import com.example.projeto.model.Service.exceptions.ObjectNotFoundExeption;
+import com.example.projeto.model.entity.Pessoa;
+import com.example.projeto.model.filter.PessoaFilter;
 import com.example.projeto.model.input.PessoaInput;
 import com.example.projeto.model.output.PessoaOutput;
 import org.modelmapper.ModelMapper;
@@ -14,8 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.projeto.model.Repository.PessoaRepository;
-import com.example.projeto.model.entity.Pessoa;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PessoaService {
@@ -37,12 +36,8 @@ public class PessoaService {
         return pessoa;
     }
 
-    public Optional<Pessoa> findById(Integer id) {
-        Optional<Pessoa> pessoa = pessoaRepository.findById(id);
-        if(pessoa == null) {
-            throw new ObjectNotFoundExeption("Requisição não encontrada.");
-        }
-        return pessoa;
+    public Optional<PessoaOutput> findById(Integer id) {
+        return pessoaRepository.findById(id).map(pessoa -> modelMapper.map(pessoa, PessoaOutput.class));
     }
 
     public Pessoa post(PessoaInput pessoaInput ) {

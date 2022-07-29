@@ -33,6 +33,6 @@ public class Pessoa {
     @Column(name = "email", length = 100)
     private String email;
 
-    @Column(name = "senha", length = 45)
+    @Column(name = "senha", length = 100)
     private String senha;
 }

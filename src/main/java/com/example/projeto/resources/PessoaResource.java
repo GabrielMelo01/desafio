@@ -1,5 +1,6 @@
 package com.example.projeto.resources;
 
+import com.example.projeto.model.Service.PessoaService;
 import com.example.projeto.model.filter.PessoaFilter;
 import com.example.projeto.model.input.PessoaInput;
 import io.swagger.annotations.Api;
@@ -13,8 +14,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.bind.annotation.*;
-
-import com.example.projeto.model.Service.PessoaService;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
@@ -65,6 +64,7 @@ public class PessoaResource  extends WebSecurityConfigurerAdapter {
     public void delete(@PathVariable Integer id) {
        service.deleteById(id);
     }
+
 
 
 }
