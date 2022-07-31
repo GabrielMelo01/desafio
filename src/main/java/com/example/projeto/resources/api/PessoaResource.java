@@ -1,4 +1,4 @@
-package com.example.projeto.resources;
+package com.example.projeto.resources.api;
 
 import com.example.projeto.model.Service.PessoaService;
 import com.example.projeto.model.filter.PessoaFilter;
@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 

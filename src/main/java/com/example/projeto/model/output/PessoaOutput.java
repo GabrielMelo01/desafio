@@ -1,5 +1,6 @@
 package com.example.projeto.model.output;
 
+import com.example.projeto.model.entity.Pessoa;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,6 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class PessoaOutput implements Serializable {
 
@@ -19,8 +19,15 @@ public class PessoaOutput implements Serializable {
     private String cpf;
     private String nome;
     private String email;
-//    private String senha;
 
+
+    public PessoaOutput(Pessoa pessoa) {
+        this.id = pessoa.getId();
+        this.cpf = pessoa.getCpf();
+        this.nome = pessoa.getNome();
+        this.email = pessoa.getEmail();
+
+    }
 
     @SneakyThrows
     public void setCpf(String cpf) {

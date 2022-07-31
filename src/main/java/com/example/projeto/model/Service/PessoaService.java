@@ -6,8 +6,10 @@ import com.example.projeto.model.entity.Pessoa;
 import com.example.projeto.model.filter.PessoaFilter;
 import com.example.projeto.model.input.PessoaInput;
 import com.example.projeto.model.output.PessoaOutput;
+import lombok.var;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,7 +20,7 @@ import java.util.Optional;
 
 @Service
 public class PessoaService {
-    
+
     @Autowired private PessoaRepository pessoaRepository;
     @Autowired private ModelMapper modelMapper;
 
@@ -40,6 +42,27 @@ public class PessoaService {
         return pessoaRepository.findById(id).map(pessoa -> modelMapper.map(pessoa, PessoaOutput.class));
     }
 
+//    public PessoaOutput findById(Integer id) {
+//        Optional<Pessoa> pessoa = pessoaRepository.findById(id);
+//        var output = new PessoaOutput();
+//        output.setId(pessoa.get().getId());
+//        output.setNome(pessoa.get().getNome());
+//        output.setEmail(pessoa.get().getEmail());
+//        output.setCpf(pessoa.get().getCpf());
+//
+//        return output;
+//    }
+
+//        public PessoaOutput findById(Integer id) {
+//        Optional<PessoaOutput> output = pessoaRepository.findById(id).map(pessoa -> modelMapper.map(pessoa, PessoaOutput.class));
+//        return output.orElseThrow(() -> new ObjectNotFoundExeption( "Requisição com identificador: "+ id +" não encontrada."));
+//    }
+
+//    public Pessoa findById(Integer id) {
+//        var pessoa = pessoaRepository.findById(id);
+//        return pessoa.orElseThrow(() -> new ObjectNotFoundExeption( "Requisição com identificador: "+ id +" não encontrada."));
+//    }
+
     public Pessoa post(PessoaInput pessoaInput ) {
 
         Pessoa pessoaTosave = modelMapper.map(pessoaInput,Pessoa.class);
@@ -53,6 +76,10 @@ public class PessoaService {
 
     public Pessoa put(PessoaInput pessoaInput ) {
         Pessoa pessoaToUpdate = modelMapper.map(pessoaInput,Pessoa.class);
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        encoder.matches(pessoaToUpdate.getSenha(), pessoaInput.getSenha());
+
         return pessoaRepository.save(pessoaToUpdate);
     }
 
